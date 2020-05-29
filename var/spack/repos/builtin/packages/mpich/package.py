@@ -160,7 +160,9 @@ spack package at this time.''',
         if self.spec.satisfies('%gcc@10:'):
             env.set('FFLAGS', '-fallow-argument-mismatch')
 
-    def setup_dependent_build_environment(self, env, dependent_spec):
+    def setup_run_environment(self, env):
+        # Because MPI implementations provide compilers, they have to add to
+        # their run environments the code to make the compilers available.
         # On Cray, the regular compiler wrappers *are* the MPI wrappers.
         if 'platform=cray' in self.spec:
             env.set('MPICC', spack_cc)
@@ -178,6 +180,9 @@ spack package at this time.''',
         env.set('MPICH_F77', spack_f77)
         env.set('MPICH_F90', spack_fc)
         env.set('MPICH_FC', spack_fc)
+
+    def setup_dependent_build_environment(self, env, dependent_spec):
+        self.setup_run_environment(env)
 
     def setup_dependent_package(self, module, dependent_spec):
         if 'platform=cray' in self.spec:
