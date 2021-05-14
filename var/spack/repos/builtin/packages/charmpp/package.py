@@ -340,15 +340,5 @@ class Charmpp(Package):
         make('-C', join_path(self.stage.source_path, 'tests'),
              'test', 'TESTOPTS=++local', parallel=False)
 
-    def setup_dependent_build_environment(self, env, dependent_spec):
-        env.set('MPICC',  self.prefix.bin.ampicc)
-        env.set('MPICXX', self.prefix.bin.ampicxx)
-        env.set('MPIF77', self.prefix.bin.ampif77)
-        env.set('MPIF90', self.prefix.bin.ampif90)
-
     def setup_dependent_package(self, module, dependent_spec):
-        self.spec.mpicc     = self.prefix.bin.ampicc
-        self.spec.mpicxx    = self.prefix.bin.ampicxx
-        self.spec.mpifc     = self.prefix.bin.ampif90
-        self.spec.mpif77    = self.prefix.bin.ampif77
         self.spec.charmarch = self.charmarch
