@@ -60,7 +60,9 @@ class UfsWeatherModel(CMakePackage):
     )
 
     depends_on("bacio")
-    depends_on("esmf@:8.0.0")
+    # ufs-weather-model@2.0.0 needs esmf_dgemm, which requires esmf
+    # build its own version of lapack
+    depends_on("esmf@:8.0.0 ~external-lapack")
     depends_on("mpi")
     depends_on("nemsio")
     depends_on("netcdf-c")
